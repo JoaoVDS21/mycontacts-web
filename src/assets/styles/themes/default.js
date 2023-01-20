@@ -10,6 +10,11 @@ export default {
     gray: {
       900: '#222',
       200: '#BCBCBC'
+    },
+    danger: {
+      light: '#F97171',
+      main: '#FC5050',
+      dark: '#F63131'
     }
   }
 };
