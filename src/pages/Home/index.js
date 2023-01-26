@@ -51,13 +51,15 @@ export default function Home() {
             <div className="info">
               <div className="contact-name">
                 <strong>{contact.name}</strong>
-                <small>{contact.category_name}</small>
+                {contact.category_name && (
+                  <small>{contact.category_name}</small>
+                )}
               </div>
               <span>{contact.email}</span>
               <span>{contact.phone}</span>
             </div>
             <div className="actions">
-              <Link to="/edit/123">
+              <Link to={`/edit/${contact.id}`}>
                 <img src={edit} alt="Edit" />
               </Link>
               <button type="button">

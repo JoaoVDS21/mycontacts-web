@@ -10,6 +10,7 @@ import Button from '../Button';
 
 import isEmailValid from '../../utils/isEmailValid';
 import useErrors from '../../hooks/useErrors';
+import formatPhone from '../../utils/formatPhone';
 
 export default function ContactForm({ buttonLabel }) {
   const [name, setName] = useState('');
@@ -17,7 +18,9 @@ export default function ContactForm({ buttonLabel }) {
   const [phone, setPhone] = useState('');
   const [category, setCategory] = useState('');
 
-  const { setError, removeError, getErrorMessageByFieldName } = useErrors();
+  const { setError, removeError, getErrorMessageByFieldName, errors } = useErrors();
+
+  const isFormValid = (name && errors.length === 0);
 
   function handleNameChange(event){
     setName(event.target.value);
@@ -40,7 +43,7 @@ export default function ContactForm({ buttonLabel }) {
   }
 
   function handlePhoneChange(event){
-    setPhone(event.target.value)
+    setPhone(formatPhone(event.target.value))
   }
 
   function handleCategoryChange(event){
@@ -54,7 +57,7 @@ export default function ContactForm({ buttonLabel }) {
     console.log({
       name,
       email,
-      phone,
+      phone: phone.replace(/\D/g, ''),
       category
     })
   }
@@ -65,7 +68,7 @@ export default function ContactForm({ buttonLabel }) {
         error={getErrorMessageByFieldName('name')}
       >
         <Input
-          placeholder='Nome'
+          placeholder='Nome *'
           value={name}
           onChange={handleNameChange}
           error={getErrorMessageByFieldName('name')}
@@ -90,6 +93,7 @@ export default function ContactForm({ buttonLabel }) {
           placeholder='Telefone'
           value={phone}
           onChange={handlePhoneChange}
+          maxLength={15}
         />
       </FormGroup>
 
@@ -105,7 +109,7 @@ export default function ContactForm({ buttonLabel }) {
       </FormGroup>
 
       <ButtonContainer>
-        <Button type="submit">
+        <Button type="submit" disabled={!isFormValid}>
           {buttonLabel}
         </Button>
       </ButtonContainer>
