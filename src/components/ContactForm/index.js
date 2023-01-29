@@ -11,6 +11,7 @@ import Button from '../Button';
 import isEmailValid from '../../utils/isEmailValid';
 import formatPhone from '../../utils/formatPhone';
 import useErrors from '../../hooks/useErrors';
+import formatPhone from '../../utils/formatPhone';
 
 export default function ContactForm({ buttonLabel }) {
   const [name, setName] = useState('');
@@ -58,7 +59,7 @@ export default function ContactForm({ buttonLabel }) {
     console.log({
       name,
       email,
-      phone,
+      phone: phone.replace(/\D/g, ''),
       category
     })
   }
