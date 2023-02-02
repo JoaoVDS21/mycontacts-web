@@ -8,7 +8,9 @@ import edit from '../../assets/images/icons/edit.svg'
 import trash from '../../assets/images/icons/trash.svg'
 
 import Loader from "../../components/Loader";
+
 import ContactsService from "../../services/ContactsService";
+import APIError from "../../errors/APIError";
 
 export default function Home() {
   const [contacts, setContacts] = useState([])
@@ -32,7 +34,9 @@ export default function Home() {
         setContacts(contactsList);
 
       } catch (error){
-        console.log("error: ", error);
+        console.log("Name: ", error.name)
+        console.log("Message: ", error.message)
+        console.log("Response: ", error.response)
       } finally {
         setIsLoading(false);
       }
