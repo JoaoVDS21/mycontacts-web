@@ -22,10 +22,16 @@ export const Container = styled.div`
   justify-content: center;
   text-align: center;
   gap: 8px;
+  cursor: pointer;
+
+  &:focus {
+    background: purple;
+  }
 
   ${({ type }) => containerVariants[type] || containerVariants.default}
 
   & + & {
     margin-top: 8px;
   }
+
 `
