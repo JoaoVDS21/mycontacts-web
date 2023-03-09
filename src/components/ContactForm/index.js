@@ -15,7 +15,6 @@ import CategoriesSerivce from '../../services/CategoriesSerivce';
 import Spinner from '../Spinner';
 
 const ContactForm = forwardRef(({ buttonLabel, onSubmit }, ref) => {
-  console.log('ContactForm.ref ', ref)
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -35,24 +34,12 @@ const ContactForm = forwardRef(({ buttonLabel, onSubmit }, ref) => {
 
   useImperativeHandle(ref, () => ({
     setFieldsValues: (contact) => {
-      setName(contact.name);
-      setEmail(contact.email);
-      setPhone(contact.phone);
-      setCategoryId(contact.category_id);
+      setName(contact.name ?? '');
+      setEmail(contact.email ?? '');
+      setPhone(formatPhone(contact.phone ?? ''));
+      setCategoryId(contact.category_id ?? '');
     }
   }), [])
-
-  // useEffect(() => {
-  //   const refObject = ref;
-  //   refObject.current = {
-  //     setFieldsValues: (contact) => {
-  //       setName(contact.name);
-  //       setEmail(contact.email);
-  //       setPhone(contact.phone);
-  //       setCategoryId(contact.category_id);
-  //     }
-  //   };
-  // }, [ref])
 
   useEffect(() => {
     async function loadCategories(){

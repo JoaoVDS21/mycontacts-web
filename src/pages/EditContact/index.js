@@ -9,6 +9,8 @@ import toast from "../../utils/toast";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
+  const [contactName, setContactName] = useState('');
+
   const contactFormRef = useRef(null);
 
   const { id } = useParams();
@@ -22,6 +24,7 @@ export default function Home() {
         contactFormRef.current.setFieldsValues(contactData)
 
         setIsLoading(false);
+        setContactName(contactData.name);
       } catch {
         history.push('/');
         toast({
@@ -43,7 +46,7 @@ export default function Home() {
       <Loader isLoading={isLoading}/>
 
       <PageHeader
-        title='Editar Matheus Silva'
+        title={isLoading ? 'Carregando' : `Editar ${contactName}`}
       />
 
       <ContactForm
