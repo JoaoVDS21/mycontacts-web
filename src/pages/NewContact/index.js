@@ -16,15 +16,13 @@ export default function Home() {
         category_id: formData.categoryId,
       }
 
-      await ContactsService.createContacts(contact);
+      await ContactsService.createContact(contact);
 
       toast({
         type: 'success',
         text: 'Contato cadastro com sucesso!'
       })
     } catch {
-      // alert('Ocorreu um erro ao cadastrar o contato!');
-
       toast({
         type: 'danger',
         text: 'Ocorreu um erro ao cadastrar o contato!'
