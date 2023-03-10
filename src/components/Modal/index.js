@@ -4,6 +4,7 @@ import { Overlay, Container, Footer} from  './styles';
 import PropTypes from 'prop-types';
 
 import Button from '../Button'
+import ReactPortal from '../ReactPortal';
 
 export default function Modal({
   danger,
@@ -23,36 +24,37 @@ export default function Modal({
 
   // createPortal: É justamente um portal em que referencio a qual tag no index.html quero renderizar este componente
 
-  return ReactDOM.createPortal(
-    <Overlay>
-      <Container danger={danger}>
-        <h1>{title}</h1>
-        <div className="modal-body">
-          {children}
-        </div>
+  return (
+    <ReactPortal containerId="modal-root">
+      <Overlay>
+        <Container danger={danger}>
+          <h1>{title}</h1>
+          <div className="modal-body">
+            {children}
+          </div>
 
-        <Footer>
-          <button
-            type="button"
-            className='cancel-button'
-            onClick={onCancel}
-            disabled={isLoading}
-          >
-            {cancelLabel}
-          </button>
+          <Footer>
+            <button
+              type="button"
+              className='cancel-button'
+              onClick={onCancel}
+              disabled={isLoading}
+            >
+              {cancelLabel}
+            </button>
 
-          <Button
-            type="button"
-            danger={danger}
-            onClick={onConfirm}
-            isLoading={isLoading}
-          >
-            {confirmLabel}
-          </Button>
-        </Footer>
-      </Container>
-    </Overlay>,
-    document.getElementById('modal-root'),
+            <Button
+              type="button"
+              danger={danger}
+              onClick={onConfirm}
+              isLoading={isLoading}
+            >
+              {confirmLabel}
+            </Button>
+          </Footer>
+        </Container>
+      </Overlay>
+    </ReactPortal>
   )
 }
 
