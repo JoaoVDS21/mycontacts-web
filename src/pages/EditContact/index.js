@@ -6,10 +6,11 @@ import ContactsService from "../../services/ContactsService";
 
 import Loader from "../../components/Loader";
 import toast from "../../utils/toast";
+import useSafeAsyncState from "../../hooks/useSafeAsyncState";
 
 export default function Home() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [contactName, setContactName] = useState('');
+  const [isLoading, setIsLoading] = useSafeAsyncState(true);
+  const [contactName, setContactName] = useSafeAsyncState('');
 
   const contactFormRef = useRef(null);
 

@@ -25,15 +25,16 @@ import Button from '../../components/Button';
 import ContactsService from "../../services/ContactsService";
 import toast from '../../utils/toast';
 import Modal from "../../components/Modal";
+import useSafeAsyncState from "../../hooks/useSafeAsyncState";
 
 export default function Home() {
-  const [contacts, setContacts] = useState([])
+  const [contacts, setContacts] = useSafeAsyncState([])
   const [orderBy, setOrderBy] = useState('desc')
   const [searchTerm, setSearchTerm] = useState('')
-  const [isLoading, setIsLoading] = useState(true);
-  const [hasError, setHasError] = useState(false);
-  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
-  const [contactBeingDeleted, setContactBeingDeleted] = useState(null);
+  const [isLoading, setIsLoading] = useSafeAsyncState(true);
+  const [hasError, setHasError] = useSafeAsyncState(false);
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useSafeAsyncState(false);
+  const [contactBeingDeleted, setContactBeingDeleted] = useSafeAsyncState(null);
   const [isLoadingDelete, setIsLoadingDelete] = useState(false);
 
   const filteredContacts = useMemo(() => {
