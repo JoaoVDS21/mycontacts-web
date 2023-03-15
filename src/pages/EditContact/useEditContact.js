@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useHistory, useParams } from "react-router-dom";
 
 import ContactsService from "../../services/ContactsService";
@@ -7,9 +7,7 @@ import toast from "../../utils/toast";
 import useSafeAsyncState from "../../hooks/useSafeAsyncState";
 import useSafeAsyncAction from "../../hooks/useSafeAsyncAction";
 
-import Presentation from './Presentation'
-
-export default function Home() {
+export default function useEditContact() {
   const [isLoading, setIsLoading] = useSafeAsyncState(true);
   const [contactName, setContactName] = useSafeAsyncState('');
 
@@ -61,12 +59,10 @@ export default function Home() {
     }
   }
 
-  return (
-    <Presentation
-      isLoading={isLoading}
-      contactName={contactName}
-      contactFormRef={contactFormRef}
-      onSubmit={handleSubmit}
-    />
-  )
+  return {
+    isLoading,
+    contactName,
+    contactFormRef,
+    handleSubmit
+  }
 }
