@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 
 import { Overlay, Container, Footer} from  './styles';
@@ -18,7 +19,25 @@ export default function Modal({
   isLoading
 }) {
 
-  if(!visible){
+  const [shouldRender, setShouldRender] = useState(visible);
+
+  useEffect(() => {
+    if (visible) {
+      setShouldRender(true);
+    }
+
+    let timeoutId;
+
+    if(!visible){
+      timeoutId = setTimeout(() => {
+        setShouldRender(false);
+      }, 300)
+    }
+
+    return () => clearTimeout(timeoutId);
+  }, [visible]);
+
+  if(!shouldRender){
     return null;
   }
 
@@ -26,8 +45,8 @@ export default function Modal({
 
   return (
     <ReactPortal containerId="modal-root">
-      <Overlay>
-        <Container danger={danger}>
+      <Overlay isLeaving={!visible}>
+        <Container danger={danger} isLeaving={!visible}>
           <h1>{title}</h1>
           <div className="modal-body">
             {children}
