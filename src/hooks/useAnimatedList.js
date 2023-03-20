@@ -1,19 +1,35 @@
-import { useCallback, useRef, useState, createRef } from "react";
+import { useCallback, useRef, useState, createRef, useEffect } from "react";
 
 export default function useAnimatedList(initialValue = []) {
   const [items, setItems] = useState(initialValue);
   const [pendingRemovalItems, setPendingRemovalItemsIds] = useState([]);
 
   const animatedRefs = useRef(new Map());
+  const animationEndListeners = useRef(new Map());
+
+  const handleAnimationEnd = useCallback((id) => {
+    setItems(prevState => prevState.filter(item => item.id !== id));
+    setPendingRemovalItemsIds(prevState => prevState.filter(itemId => itemId !== id));
+  }, [])
+
+  useEffect(() => {
+    pendingRemovalItems.forEach((itemId) => {
+      const animatedRef = animatedRefs.current.get(itemId);
+      const alreadyHasListener = animationEndListeners.current.has(itemId);
+
+      if (animatedRef?.current && !alreadyHasListener) {
+        animationEndListeners.current.set(itemId, true);
+
+        animatedRef.current.addEventListener('animationend', () => {
+          handleAnimationEnd(itemId);
+        })
+      }
+    })
+  }, [pendingRemovalItems, handleAnimationEnd])
 
   const handleRemoveItem = useCallback((id) => {
     setPendingRemovalItemsIds(prevState => [...prevState, id]);
   }, [])
-
-  // const handleAnimationEnd = useCallback((id) => {
-  //   setItems(prevState => prevState.filter(item => item.id !== id));
-  //   setPendingRemovalItemsIds (prevState => prevState.filter(itemId => itemId !== id));
-  // }, [])
 
   // const animatedElementRef = useRef(null);
 
@@ -38,7 +54,7 @@ export default function useAnimatedList(initialValue = []) {
 
     if(!animatedRef) {
       animatedRef = createRef();
-      animatedRefs.current.get(itemId, animatedRef);
+      animatedRefs.current.set(itemId, animatedRef);
     }
 
     return animatedRef;
